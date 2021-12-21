@@ -6,8 +6,8 @@ CUDA_VISIBLE_DEVICES=0  python3 valid.py --data_root "/home/student/workspace_Yu
                         --crop_size 68 \
                         --gpu_id 0 \
                         --lr 0.1 \
-			--test_only \
-			--ckpt './checkpoints_obow_deeplabv3plus_s15_PC/best_deeplabv3plus_resnet50_cityscapes_os8.pth' \
-			--val_batch_size 1\
-                        > cityscapes_depth_valid.out
-#                        --ckpt
+			                  --test_only \
+			                  --ckpt './checkpoints_obow_deeplabv3plus_s15_PC/best_deeplabv3plus_resnet50_cityscapes_os8.pth' \
+			                  --val_batch_size 1\
+                        > cityscapes_GAN_valid.out
+
