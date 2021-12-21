@@ -5,6 +5,6 @@ CUDA_VISIBLE_DEVICES=0,1  python3 main.py --data_root "/home/student/workspace_Y
                         --batch_size 12 \
                         --crop_size 768 \
                         --gpu_id 0,1 \
-                        --lr 0.001 \
-			--ckpt './pre_models/model_137000_best_rms_7.52482_depth_deeplab.pth'\
-			> cityscapes_best_obow_resnet_imagenet_depth_train_extra_p9.out
+                        --lr 0.1 \
+                        --checkpoint_root './pre_models/best_ckpt_obow.pth'\
+                        > cityscapes_GAN_Descriptor_obow.out

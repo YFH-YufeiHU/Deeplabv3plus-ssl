@@ -211,9 +211,9 @@ class ResNet(nn.Module):
         return x
 
 
-def _resnet(arch, block, layers, pretrained, progress, **kwargs):
+def _resnet(arch, block, layers, pretrained, progress,checkpoint_root=None, **kwargs):
     model = ResNet(block, layers, **kwargs)
-    pretrained = False
+    pretrained = True
     if pretrained:
         #state_dict = load_state_dict_from_url(model_urls[arch],
         #                                      progress=progress)
@@ -308,6 +308,18 @@ def _resnet(arch, block, layers, pretrained, progress, **kwargs):
         #model_dict.update(state_dict)
         #model.load_state_dict(model_dict)
         #print("successfully loaded the pretrained model from model_144000_best_rms_6.60517_p9_obow_resnet_imagenet_depth.pth!")
+        '''load model from GAN'''
+        model_dict = model.state_dict()
+        state_dict = torch.load(checkpoint_root)
+        state_dict = {k.split('resnet_features.')[1]: v for k, v in state_dict.items() if
+                      (k in state_dict and 'resnet_features.' in k)}
+        for i in range(10):
+            state_dict.popitem()
+        for k, v in state_dict.items():
+            print(k)
+        model_dict.update(state_dict)
+        model.load_state_dict(model_dict)
+        print("Model restored from %s" % checkpoint_root)
 
     return model
 

@@ -30,7 +30,8 @@ def get_argparser():
                         choices=['voc', 'cityscapes'], help='Name of dataset')
     parser.add_argument("--num_classes", type=int, default=None,
                         help="num classes (default: None)")
-
+    parser.add_argument("--checkpoint_root", default=None, type=str,
+                        help="ath to pretrained model(resnet)")
     # Deeplab Options
     parser.add_argument("--model", type=str, default='deeplabv3plus_resnet50',
                         choices=['deeplabv3_resnet50',  'deeplabv3plus_resnet50',
@@ -250,7 +251,7 @@ def main():
         'deeplabv3plus_mobilenet': network.deeplabv3plus_mobilenet
     }
 
-    model = model_map[opts.model](num_classes=opts.num_classes, output_stride=opts.output_stride)
+    model = model_map[opts.model](num_classes=opts.num_classes, output_stride=opts.output_stride,checkpoint_root=opts.checkpoint_root)
     if opts.separable_conv and 'plus' in opts.model:
         network.convert_to_separable_conv(model.classifier)
     utils.set_bn_momentum(model.backbone, momentum=0.01)

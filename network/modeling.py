@@ -3,7 +3,7 @@ from ._deeplab import DeepLabHead, DeepLabHeadV3Plus, DeepLabV3
 from .backbone import resnet
 from .backbone import mobilenetv2
 
-def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_backbone):
+def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_backbone,checkpoint_root=None):
 
     if output_stride==8:
         replace_stride_with_dilation=[False, True, True]
@@ -14,6 +14,7 @@ def _segm_resnet(name, backbone_name, num_classes, output_stride, pretrained_bac
 
     backbone = resnet.__dict__[backbone_name](
         pretrained=pretrained_backbone,
+        checkpoint_root=checkpoint_root,
         replace_stride_with_dilation=replace_stride_with_dilation)
     
     inplanes = 2048
@@ -58,12 +59,12 @@ def _segm_mobilenet(name, backbone_name, num_classes, output_stride, pretrained_
     model = DeepLabV3(backbone, classifier)
     return model
 
-def _load_model(arch_type, backbone, num_classes, output_stride, pretrained_backbone):
+def _load_model(arch_type, backbone, num_classes, output_stride, pretrained_backbone,checkpoint_root=None):
 
     if backbone=='mobilenetv2':
         model = _segm_mobilenet(arch_type, backbone, num_classes, output_stride=output_stride, pretrained_backbone=pretrained_backbone)
     elif backbone.startswith('resnet'):
-        model = _segm_resnet(arch_type, backbone, num_classes, output_stride=output_stride, pretrained_backbone=pretrained_backbone)
+        model = _segm_resnet(arch_type, backbone, num_classes, output_stride=output_stride, pretrained_backbone=pretrained_backbone,checkpoint_root=checkpoint_root)
     else:
         raise NotImplementedError
     return model
@@ -104,7 +105,7 @@ def deeplabv3_mobilenet(num_classes=21, output_stride=8, pretrained_backbone=Tru
 
 # Deeplab v3+
 
-def deeplabv3plus_resnet50(num_classes=21, output_stride=8, pretrained_backbone=True):
+def deeplabv3plus_resnet50(num_classes=21, output_stride=8, pretrained_backbone=True,checkpoint_root=None):
     """Constructs a DeepLabV3 model with a ResNet-50 backbone.
 
     Args:
@@ -112,7 +113,7 @@ def deeplabv3plus_resnet50(num_classes=21, output_stride=8, pretrained_backbone=
         output_stride (int): output stride for deeplab.
         pretrained_backbone (bool): If True, use the pretrained backbone.
     """
-    return _load_model('deeplabv3plus', 'resnet50', num_classes, output_stride=output_stride, pretrained_backbone=pretrained_backbone)
+    return _load_model('deeplabv3plus', 'resnet50', num_classes, output_stride=output_stride, pretrained_backbone=pretrained_backbone,checkpoint_root=checkpoint_root)
 
 
 def deeplabv3plus_resnet101(num_classes=21, output_stride=8, pretrained_backbone=True):
