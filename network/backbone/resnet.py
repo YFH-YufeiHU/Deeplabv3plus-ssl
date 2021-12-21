@@ -213,7 +213,7 @@ class ResNet(nn.Module):
 
 def _resnet(arch, block, layers, pretrained, progress, **kwargs):
     model = ResNet(block, layers, **kwargs)
-    pretrained = True
+    pretrained = False
     if pretrained:
         #state_dict = load_state_dict_from_url(model_urls[arch],
         #                                      progress=progress)
@@ -299,15 +299,15 @@ def _resnet(arch, block, layers, pretrained, progress, **kwargs):
         #model.load_state_dict(model_dict)
         #print("successfully loaded the offline model ResNet50 from obow(2048_aut coco with pretrained model and super crop min(h,w)>100 but use padding ->s4!")
         '''load model from depth estimation BTS'''
-        model_dict = model.state_dict()
-        state_dict = torch.load('./pre_models/model_144000_best_rms_6.60517_p9_obow_resnet_imagenet_depth.pth')
-        state_dict = state_dict['model']
-        state_dict =  {k.split('module.encoder.base_model.')[1]: v for k, v in state_dict.items()if(k in state_dict and 'module.encoder.base_model.' in k)}
-        for k,v in state_dict.items():
-            print(k)
-        model_dict.update(state_dict)
-        model.load_state_dict(model_dict)
-        print("successfully loaded the pretrained model from model_144000_best_rms_6.60517_p9_obow_resnet_imagenet_depth.pth!")
+        #model_dict = model.state_dict()
+        #state_dict = torch.load('./pre_models/model_144000_best_rms_6.60517_p9_obow_resnet_imagenet_depth.pth')
+        #state_dict = state_dict['model']
+        #state_dict =  {k.split('module.encoder.base_model.')[1]: v for k, v in state_dict.items()if(k in state_dict and 'module.encoder.base_model.' in k)}
+        #for k,v in state_dict.items():
+        #    print(k)
+        #model_dict.update(state_dict)
+        #model.load_state_dict(model_dict)
+        #print("successfully loaded the pretrained model from model_144000_best_rms_6.60517_p9_obow_resnet_imagenet_depth.pth!")
 
     return model
 

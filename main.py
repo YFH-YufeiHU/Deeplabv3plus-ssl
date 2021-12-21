@@ -359,7 +359,8 @@ def main():
         #model.load_state_dict(model_dict)
         #print('successfully loaded the checkpoint Obow_deeplabv3plus_perfect_crop.pth.tar')
         #exit()
-
+    
+        #load pretrained model from depth estimation
         model_dict = model.state_dict()
         checkpoint = torch.load(opts.ckpt)
         state_dict = checkpoint["model"]
@@ -371,10 +372,9 @@ def main():
         state_dict.popitem()
         for k,v in state_dict.items():
             print(k)
-        #exit()
         model_dict.update(state_dict)
         model.load_state_dict(model_dict)
-        print('successfully loaded the checkpoint model_best_rms_7.55890_depth_deeplab_best_model_p11.pth')
+        #print('successfully loaded the checkpoint model_best_rms_7.55890_depth_deeplab_best_model_p11.pth')
         #exit()
 
 
